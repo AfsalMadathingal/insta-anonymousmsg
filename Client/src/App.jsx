@@ -5,6 +5,11 @@ import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 import SignUp from "./components/SignUp/SignUp";
 import ReactLoading from "react-loading";
 import Inbox from "./components/inbox/Inbox";
+import Footer from "./components/Footer/Footer";
+import bg from '../src/assets/images/bg.jpg'
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -29,7 +34,7 @@ function App() {
           navigate("/signin");
         }else{
           setLoading(false);
-          navigate("/");
+          navigate("/inbox");
         }
 
       });
@@ -44,14 +49,17 @@ function App() {
       
       )}
       {!loading && (
-        <div className="bg-gradient-to-r from-yellow-500 via-pink-600 to-purple-800 h-screen w-screen p-2">
+        <div style={{ backgroundImage: `url(${bg})` }} className="  h-screen w-screen p-2">
           <Routes>
             <Route path="/signin" element={<SignIn />} />
             <Route path="/signup" element={<SignUp />} />
-            <Route path="/" element={<Inbox />} />
+            <Route path="/inbox" element={<Inbox />} />
           </Routes>
         </div>
       )}
+      <Footer/>
+      <ToastContainer />
+      
     </div>
   );
 }

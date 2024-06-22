@@ -16,6 +16,10 @@ const register = async (req, res) => {
     } else if (password !== confirmPassword) {
       return res.status(400).json({ error: "Passwords do not match" });
     }
+    const exists = await userModel.findOne({ email: email });
+    if (exists) {
+      return res.status(400).json({ error: "User already exists" });
+    }
 
     const encryptedPassword = await bcrypt.hash(password, 10);
 
@@ -70,6 +74,7 @@ const login = async (req, res) => {
 };
 
 const logout = (req, res) => {
+  console.log("logging out");
   res.clearCookie('access_token', {
     httpOnly: true,
     secure: false, // Should be true if using HTTPS
