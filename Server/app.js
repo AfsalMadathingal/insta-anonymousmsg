@@ -12,6 +12,14 @@ const app = express();
 
 app.use(cookieParser());
 
+
+app.use(cors({
+    origin: ['http://localhost:5173',"https://insta-anonymousmsg-1.onrender.com",'https://urchin-app-5u7kr.ondigitalocean.app'], 
+    credentials: true, 
+}));
+
+
+
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
@@ -25,16 +33,13 @@ mongoose.connect(process.env.MONGODB_URI, {
 
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Credentials', true);
     next();
   });
   
-app.use(cors({
-    origin: ['http://localhost:5173',"https://insta-anonymousmsg-1.onrender.com",'https://urchin-app-5u7kr.ondigitalocean.app'], 
-    credentials: true, 
-}));
 
 
 // Routes

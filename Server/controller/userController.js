@@ -69,7 +69,7 @@ const login = async (req, res) => {
       httpOnly: true,
       domain:process.env.HOST_LINK,
       secure: true, // Should be false for HTTP
-      sameSite: 'none', // Use Lax for better compatibility over HTTP
+      sameSite: 'None', // Use Lax for better compatibility over HTTP
       maxAge: 24 * 60 * 60 * 1000 // 1 day in milliseconds
     }).status(200).json({ success: true, message: "Login successful", user: user });
 
@@ -84,7 +84,7 @@ const logout = (req, res) => {
     httpOnly: true,
     domain:process.env.HOST_LINK,
     secure: true, // Should be true if using HTTPS
-    sameSite: 'none' // Adjust to your setup
+    sameSite: 'None' // Adjust to your setup
   }).status(200).json({ success: true, message: "Logout successful" });
 };
 
