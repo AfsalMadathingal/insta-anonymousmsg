@@ -50,8 +50,8 @@ const Inbox = () => {
       canvas.toBlob(blob => {
         const item = new ClipboardItem({ "image/png": blob });
         navigator.clipboard.write([item]).then(() => {
+          
           toast.success("Screenshot copied to clipboard");
-          // Now you can open share options
           if (navigator.share) {
             navigator.share({
               title: 'Shared Message',
@@ -133,40 +133,18 @@ const Inbox = () => {
       >
         <i className="text-2xl text-pink-500 fa-solid fa-close"></i>
       </div>
-      <p className="text-sm font-thin mb-4 text-center pb-5 break-words">
+      <div className="flex flex-col rounded-md items-center justify-center bg-gray-300 max-w-[600px] p-4
+      mb-5">
+      <p className="lg:text-lg text-md font-thin mb-4 text-center pb-5 break-words">
         {selectedMsg}
       </p>
+      </div>
+    
       <div className="flex gap-2 justify-center">
         <button 
-          onClick={() => setReplyModalOpen(true)}
+          onClick={handleShare}
           className="bg-slate-600 hover:bg-slate-300 text-white text-[12px] h-10 py-2 px-4 rounded-lg">
           <i className="fa-solid fa-share"></i> Share with reply
-        </button>
-      </div>
-    </div>
-  </div>
-)}
-
-{replyModalOpen && (
-  <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
-    <div className="bg-white p-6 rounded-lg w-[90%] max-w-[600px] overflow-y-auto max-h-[80vh] relative">
-      <div
-        onClick={() => setReplyModalOpen(false)}
-        className="absolute top-4 right-4 cursor-pointer"
-      >
-        <i className="text-2xl text-pink-500 fa-solid fa-close"></i>
-      </div>
-      <textarea
-        className="w-full h-32 p-2 border rounded-md mb-4"
-        placeholder="Write your reply here..."
-        onChange={(e) => setReplyMessage(e.target.value)}
-      />
-      <div className="flex gap-2 justify-center">
-        <button
-          onClick={handleShare}
-          className="bg-slate-600 hover:bg-slate-300 text-white text-[12px] h-10 py-2 px-4 rounded-lg"
-        >
-          <i className="fa-solid fa-share"></i> Share
         </button>
       </div>
     </div>
