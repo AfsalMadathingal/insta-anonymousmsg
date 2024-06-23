@@ -28,7 +28,7 @@ const register = async (req, res) => {
    
     const link = await turl.shorten( `${process.env.HOST_LINK}/sent/${email}`)
 
-    const user = await userModel.create({ email, password: encryptedPassword ,link });
+    const user = await userModel.create({ email:email.trim(), password: encryptedPassword ,link });
 
     const token = jwt.sign({ id: user._id, role: "user" }, process.env.JWT_SECRET_KEY);
 

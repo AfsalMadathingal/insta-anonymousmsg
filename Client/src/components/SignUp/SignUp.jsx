@@ -16,6 +16,8 @@ const SignUp = () => {
   const hadleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    const emailSpace = email.replace(/\s/g, "");
+    console.log(emailSpace);
   const host = import.meta.env.VITE_HOST;
   const result =  await fetch(`${host}/api/register`, {
       method: "POST",
@@ -26,7 +28,7 @@ const SignUp = () => {
         "Access-Control-Allow-Origin": "*",
       },
       body: JSON.stringify({
-        email,
+        email:emailSpace,
         password,
         confirmPassword,
       }),
