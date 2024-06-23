@@ -1,18 +1,21 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "./signup.css";
+import { AuthContext } from "../../store/AuthContext";
 
 const SignUp = () => {
+
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const navigate = useNavigate()
+  const { user, setUser, setLoading, loading, setExplosion } = useContext(AuthContext);
 
   const hadleSubmit = async (e) => {
     e.preventDefault();
-
+    setLoading(true);
   const host = import.meta.env.VITE_HOST;
   const result =  await fetch(`${host}/api/register`, {
       method: "POST",
@@ -30,9 +33,11 @@ const SignUp = () => {
     })
     const data = await result.json();
     if (data.success) {
+        setLoading(false);
         toast.success("Registered Successfully");
         navigate('/signin')
     }else{
+      setLoading(false);
       console.log(data);
       toast.error(data.error)
     }

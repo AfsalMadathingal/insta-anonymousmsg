@@ -11,7 +11,7 @@ const Inbox = () => {
   const [replyModalOpen, setReplyModalOpen] = useState(false);
   const [replyMessage, setReplyMessage] = useState("");
   const navigate = useNavigate();
-  const { user, setUser, loading, setExplosion } = useContext(AuthContext);
+  const { user, setUser,setLoading, loading, setExplosion } = useContext(AuthContext);
 
   const messages = user.message;
   const count = messages.length;
@@ -21,6 +21,7 @@ const Inbox = () => {
   };
 
   const handleLogout = async () => {
+    setLoading(true);
     const data = await fetch(`${import.meta.env.VITE_HOST}/api/logout`, {
       method: "POST",
       headers: {
@@ -32,6 +33,7 @@ const Inbox = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
+          setLoading(false);
           setUser(null);
           navigate("/signin");
           toast.success(data.message);
@@ -40,7 +42,7 @@ const Inbox = () => {
   };
 
   const handleCopyLink = () => {
-    navigator.clipboard.writeText(`http://localhost:5173/sent/${user._id}`);
+    navigator.clipboard.writeText(user.link);
     toast.success("Link Copied");
     setExplosion(true);
   };
@@ -120,12 +122,20 @@ const Inbox = () => {
 
   return (
     <>
+      <div className="flex justify-center">
+      <button
+              onClick={shareToStory}
+              className="bg-red-500 transition duration-500 hover:bg-slate-500 text-white xs:text-[20px] text-[30px] py-2 px-4 rounded-full mt-4 text-center"
+            >
+              Share to your story <i className="fa-solid fa-share"></i>
+            </button>
+      </div>
       <div className="flex flex-col items-center justify-center mt-12 ">
         <div className="bg-slate-300 w-[90%] max-w-[800px] shadow-xl h-[80vh] rounded-lg overflow-hidden relative">
           <div className="sticky top-0 bg-gradient-to-b from-blue-300 to-black shadow-lg flex  items-center h-[100px] rounded-t-lg z-10 justify-between p-5">
             <button
               onClick={handleCopyLink}
-              className="bg-gradient-to-b from-pink-500 to-red-400 hover:from-red-900 hover:to-pink-600 text-white text-[10px] xs:py-2 xs:px-2 lg:text-[12px] h-10 lg:py-2 lg:px-4 rounded-lg"
+              className="shadow-lg bg-gradient-to-b from-pink-500 to-red-400 hover:from-red-900 hover:to-pink-600 text-white text-[11px] xs:py-2 xs:px-2 lg:text-[15px] h-10 lg:py-2 lg:px-4 rounded-full"
             >
               {" "}
               <i className="fa-solid fa-copy"></i> Copy Link
@@ -138,7 +148,7 @@ const Inbox = () => {
             </h1>
             <button
               onClick={handleLogout}
-              className="bg-black transition  hover:bg-slate-500 text-white xs:text-[10px] text-[12px] h-10 py-2 px-4 rounded-lg"
+              className="bg-black transition  hover:bg-slate-500 text-white xs:text-[11px] text-[15px] h-10 py-2 px-4 rounded-full shadow-lg "
             >
                <span className="pr-2">Logout</span>  <i className="fa-solid fa-right-from-bracket"></i>
             </button>
@@ -168,14 +178,7 @@ const Inbox = () => {
         </div>
        
       </div>
-      <div className="flex justify-center">
-      <button
-              onClick={shareToStory}
-              className="bg-red-600 transition  hover:bg-slate-500 text-white xs:text-[20px] text-[30px] py-2 px-4 rounded-full mt-4 text-center"
-            >
-              Share to your story <i className="fa-solid fa-share"></i>
-            </button>
-      </div>
+    
       
       {viewMsg && (
   <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-90 z-50">

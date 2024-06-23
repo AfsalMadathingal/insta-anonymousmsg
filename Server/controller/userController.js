@@ -3,6 +3,7 @@ const messageModel = require("../model/messageModel");
 const validator = require("validator");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const turl = require('turl');
 
 const register = async (req, res) => {
   try {
@@ -24,7 +25,10 @@ const register = async (req, res) => {
 
     const encryptedPassword = await bcrypt.hash(password, 10);
 
-    const user = await userModel.create({ email, password: encryptedPassword });
+   
+    const link = await turl.shorten( `${process.env.HOST_LINK}/sent/${email}`)
+
+    const user = await userModel.create({ email, password: encryptedPassword ,link });
 
     const token = jwt.sign({ id: user._id, role: "user" }, process.env.JWT_SECRET_KEY);
 
@@ -90,7 +94,7 @@ const sendMessage = async (req, res) => {
     const { id } = req.params;
     const { msg } = req.body;
     console.log(msg);
-    const user = await userModel.findById(id);
+    const user = await userModel.findOne({email:id});
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
@@ -106,7 +110,7 @@ const findUser = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const user = await userModel.findById(id);
+    const user = await userModel.findOne({email:id});
 
     if (!user) {
       return res.status(404).json({success: false, error: "User not found" });

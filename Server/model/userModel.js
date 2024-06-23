@@ -11,6 +11,10 @@ const userSchema = new mongoose.Schema({
     },
     message : {
         type: Array
+    },
+    link:{
+        type: String,
+        required: true
     }
 });
 
