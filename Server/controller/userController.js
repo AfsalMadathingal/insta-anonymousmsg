@@ -113,6 +113,8 @@ const findUser = async (req, res) => {
   try {
     const { id } = req.params;
 
+    console.log(id);
+
     const user = await userModel.findOne({email:id});
 
     if (!user) {
