@@ -69,26 +69,48 @@ const Inbox = () => {
     });
   };
 
-  const shareTostorie = () => {
+  const shareToStory = async () => {
+    try {
+      if (!navigator.clipboard || !window.ClipboardItem) {
+        toast.error("Clipboard API not supported in your browser");
+        return;
+      }
   
-    const item = new ClipboardItem({ "image/png": storyImage });
-    navigator.clipboard.write([item]).then(() => {
 
+      const response = await fetch(storyImage);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const blob = await response.blob();
+  
+
+      console.log('Blob:', blob);
+  
+      const item = new ClipboardItem({ "image/png": blob });
+  
+
+      await navigator.clipboard.write([item]);
       toast.success("Screenshot copied to clipboard");
+  
+   
       if (navigator.share) {
-        navigator.share({
+
+        const file = new File([blob], 'screenshot.png', { type: 'image/png' });
+  
+        await navigator.share({
           title: 'Shared Message',
           text: 'Check out this message',
-          files: [new File([storyImage], 'screenshot.png', { type: 'image/png' })],
+          files: [file],
         });
       } else {
         toast.error("Sharing is not supported in your browser");
       }
-    }).catch(err => {
+    } catch (err) {
+      console.error('Error copying to clipboard:', err);
       toast.error("Failed to copy screenshot to clipboard");
-    });
-
-  }
+    }
+  };
+  
 
   useEffect(() => {
     if (!user) {
@@ -118,7 +140,7 @@ const Inbox = () => {
               onClick={handleLogout}
               className="bg-black transition  hover:bg-slate-500 text-white xs:text-[10px] text-[12px] h-10 py-2 px-4 rounded-lg"
             >
-              Logout
+               <span className="pr-2">Logout</span>  <i className="fa-solid fa-right-from-bracket"></i>
             </button>
           </div>
           <div className="overflow-y-scroll h-[calc(80vh-100px)] p-4">
@@ -148,10 +170,10 @@ const Inbox = () => {
       </div>
       <div className="flex justify-center">
       <button
-              onClick={shareTostorie}
+              onClick={shareToStory}
               className="bg-red-600 transition  hover:bg-slate-500 text-white xs:text-[20px] text-[30px] py-2 px-4 rounded-full mt-4 text-center"
             >
-              Share to your story
+              Share to your story <i className="fa-solid fa-share"></i>
             </button>
       </div>
       
