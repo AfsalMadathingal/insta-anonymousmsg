@@ -82,12 +82,12 @@ const Inbox = () => {
           <div className="sticky top-0 bg-gradient-to-b from-blue-300 to-black shadow-lg flex  items-center h-[100px] rounded-t-lg z-10 justify-between p-5">
             <button
               onClick={handleCopyLink}
-              className="bg-gradient-to-b from-pink-500 to-red-400 hover:from-red-900 hover:to-pink-600 text-white text-[12px] h-10 py-2 px-4 rounded-lg"
+              className="bg-gradient-to-b from-pink-500 to-red-400 hover:from-red-900 hover:to-pink-600 text-white text-[10px] xs:py-2 xs:px-2 lg:text-[12px] h-10 lg:py-2 lg:px-4 rounded-lg"
             >
               {" "}
               <i className="fa-solid fa-copy"></i> Copy Link
             </button>
-            <h1 className="text-3xl text-white">
+            <h1 className="lg:text-3xl text-white">
               Inbox{" "}
               <span className="text-sm bg-red-600 text-white p-1 rounded-lg">
                 {count}
@@ -95,7 +95,7 @@ const Inbox = () => {
             </h1>
             <button
               onClick={handleLogout}
-              className="bg-black transition  hover:bg-slate-500 text-white text-[12px] h-10 py-2 px-4 rounded-lg"
+              className="bg-black transition  hover:bg-slate-500 text-white xs:text-[10px] text-[12px] h-10 py-2 px-4 rounded-lg"
             >
               Logout
             </button>
@@ -125,26 +125,32 @@ const Inbox = () => {
         </div>
       </div>
       {viewMsg && (
-  <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
-    <div className="bg-white p-6 rounded-lg w-[90%] max-w-[600px] overflow-y-auto max-h-[80vh] relative">
+  <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-90 z-50">
+    <div className="bg-slate-600 p-3 rounded-lg w-[90%] max-w-[600px] overflow-y-auto max-h-[80vh] relative">
       <div
         onClick={() => setViewMsg(null)}
-        className="absolute top-4 right-4 cursor-pointer"
+        className="fixed top-4 right-4 cursor-pointer "
       >
-        <i className="text-2xl text-pink-500 fa-solid fa-close"></i>
+        <i className="text-2xl text-white fa-solid fa-close"></i>
       </div>
-      <div className="share-msg flex flex-col rounded-md items-center justify-center bg-gray-300 max-w-[600px] p-4
+      <div className="share-msg">
+      <div className="sticky top-0 bg-gradient-to-b from-pink-500 to-cyan-400 shadow-lg flex justify-center items-center h-[100px] rounded-t-lg z-10">
+            <h1 className="lg:text-3xl sm:text-xl text-white">send me anonymous message</h1>
+          </div>
+      <div className=" flex flex-col rounded-md items-center justify-center bg-white max-w-[600px] p-4
       mb-5">
       <p className="lg:text-lg text-md font-thin mb-4 text-center pb-5 break-words">
         {selectedMsg}
       </p>
       </div>
+      </div>
+    
     
       <div className="flex gap-2 justify-center">
         <button 
           onClick={handleShare}
-          className="bg-slate-600 hover:bg-slate-300 text-white text-[12px] h-10 py-2 px-4 rounded-lg">
-          <i className="fa-solid fa-share"></i> Share with reply
+          className="bg-gradient-to-b from-pink-500 to-red-400 hover:from-red-900 hover:to-pink-600 text-white text-[12px] h-10 py-2 px-4 rounded-lg">
+          <i className="fa-solid fa-share"></i> Share 
         </button>
       </div>
     </div>
