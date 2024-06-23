@@ -23,10 +23,10 @@ const LandingPage = () => {
     <div className='flex justify-center items-center h-screen'>
     <div className='flex flex-col justify-center items-center h-[300px] p-12 bg-white rounded-lg '>
       <h1 className='text-3xl mb-5'>Welcome </h1>
-      <p className='text-center lg:text-lg text-sm'>📨 Sent anonymous message to your friends <br />  and your favorite influencer 💕 </p>
+      <p className='text-center lg:text-lg text-sm'>📨 Send/Receive  an anonymous message <br /> to your friends anonymously <br />  and your favorite influencer 💕 </p>
       <button
       onClick={handleClick} 
-      className='bg-black hover:bg-red-700 mt-8 text-white  py-2 px-4 rounded'>Get Started</button>
+      className='bg-black hover:bg-red-700 mt-8 text-white  py-2 px-4 rounded-full'>Get Started</button>
     </div>
     </div>
     </>
