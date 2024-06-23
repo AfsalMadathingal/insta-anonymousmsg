@@ -27,7 +27,7 @@ mongoose.connect(process.env.MONGODB_URI, {
 app.use(express.json());
 
 app.use(cors({
-    origin: ['http://localhost:5173',"https://insta-anonymousmsg-1.onrender.com"], 
+    origin: ['http://localhost:5173',"https://insta-anonymousmsg-1.onrender.com",'https://urchin-app-5u7kr.ondigitalocean.app'], 
     credentials: true, 
 }));
 
