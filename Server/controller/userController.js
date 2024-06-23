@@ -68,7 +68,7 @@ const login = async (req, res) => {
     res.cookie("access_token", token, {
       httpOnly: true,
       domain:process.env.HOST_LINK,
-      secure: false, // Should be false for HTTP
+      secure: true, // Should be false for HTTP
       sameSite: 'Lax', // Use Lax for better compatibility over HTTP
       maxAge: 24 * 60 * 60 * 1000 // 1 day in milliseconds
     }).status(200).json({ success: true, message: "Login successful", user: user });
