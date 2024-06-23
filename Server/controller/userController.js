@@ -67,7 +67,7 @@ const login = async (req, res) => {
 
     res.cookie("access_token", token, {
       httpOnly: true,
-      domain:process.env.HOST_LINK,
+      // domain:process.env.HOST_LINK,
       secure: true, // Should be false for HTTP
       sameSite: 'Lax', // Use Lax for better compatibility over HTTP
       maxAge: 24 * 60 * 60 * 1000 // 1 day in milliseconds
@@ -82,8 +82,8 @@ const logout = (req, res) => {
   console.log("logging out");
   res.clearCookie('access_token', {
     httpOnly: true,
-    domain:process.env.HOST_LINK,
-    secure: false, // Should be true if using HTTPS
+    // domain:process.env.HOST_LINK,
+    secure: true, // Should be true if using HTTPS
     sameSite: 'Lax' // Adjust to your setup
   }).status(200).json({ success: true, message: "Logout successful" });
 };
