@@ -6,8 +6,8 @@ const userModal = require("../model/userModel");
     
   
     try {
-         console.log(req.cookies);
-        const token = req.cookies.access_token;
+      
+        const {token} = req.body;
 
       console.log(token);
   

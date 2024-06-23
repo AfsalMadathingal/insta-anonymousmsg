@@ -8,6 +8,7 @@ const FlipCard = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate()
   const { user, setUser, loading , setLoading } = useContext(AuthContext);
+
   const hadleSubmit = async (e) => {
 
     e.preventDefault();
@@ -30,6 +31,7 @@ const FlipCard = () => {
     const data = await result.json();
     if (data.success) {
       setUser(data.user)
+      localStorage.setItem('token', data.token);
       setLoading(false)
       navigate('/inbox')
     }else{

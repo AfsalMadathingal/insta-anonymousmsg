@@ -11,15 +11,17 @@ const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const fetchUser = async () => {
+      const token = localStorage.getItem('token');
       setLoading(true)
         const host = import.meta.env.VITE_HOST;
         fetch(`${host}/api/auth/verify`, {
-          method: "GET",
+          method: "POST",
           headers: {
             "Content-Type": "application/json",
             "Access-Control-Allow-Origin": "*",
           },
           credentials: 'include',
+          body: JSON.stringify({token}),
         })
     
     
@@ -29,7 +31,6 @@ const AuthProvider = ({ children }) => {
             if (!data.success) {
               setLoading(false);
               
-            
             }else{
               setLoading(false);
               setUser(data.user)

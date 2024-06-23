@@ -22,23 +22,30 @@ const Inbox = () => {
 
   const handleLogout = async () => {
     setLoading(true);
-    const data = await fetch(`${import.meta.env.VITE_HOST}/api/logout`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-      },
-      credentials: "include",
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success) {
-          setLoading(false);
-          setUser(null);
-          navigate("/signin");
-          toast.success(data.message);
-        }
-      });
+
+    localStorage.removeItem("token");
+    setLoading(false);
+    setUser(null);
+    navigate("/signin");
+    toast.success("Logged Out");
+
+    // const data = await fetch(`${import.meta.env.VITE_HOST}/api/logout`, {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     "Access-Control-Allow-Origin": "*",
+    //   },
+    //   credentials: "include",
+    // })
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //     if (data.success) {
+    //       setLoading(false);
+    //       setUser(null);
+    //       navigate("/signin");
+    //       toast.success(data.message);
+    //     }
+    //   });
   };
 
   const handleCopyLink = () => {

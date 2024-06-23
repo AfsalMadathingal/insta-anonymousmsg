@@ -71,7 +71,7 @@ const login = async (req, res) => {
       secure: true, // Should be false for HTTP
       sameSite: 'None', // Use Lax for better compatibility over HTTP
       maxAge: 24 * 60 * 60 * 1000 // 1 day in milliseconds
-    }).status(200).json({ success: true, message: "Login successful", user: user });
+    }).status(200).json({ success: true, message: "Login successful", user: user , token:token});
 
   } catch (error) {
     res.status(500).json({ error: error.message });
