@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { AuthContext } from '../../store/AuthContext'
 import { toast } from 'react-toastify';
@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 const SentMessage = () => {
   const { setExplosion } = useContext(AuthContext);
   const [modalOpen, setModalOpen] = useState(false);
+  const [name, setName] = useState("");
   const navigate = useNavigate();
 
   const [msg , setMsg ] =useState()
@@ -13,8 +14,6 @@ const SentMessage = () => {
   const messageRef = useRef();
 
   const handleSent = async ()=>{
-    console.log(msg);
-    console.log(id);
     const messageSplit = msg.split(" ");
     if(!msg){
       toast.error("Please Enter Message");
@@ -53,7 +52,7 @@ const SentMessage = () => {
       messageRef.current.value = "";
       setModalOpen(true);  
     } else {
-      toast.error("Something Went Wrong");
+      toast.error("Link is expired");
     }
     
   }
@@ -62,6 +61,32 @@ const SentMessage = () => {
     setModalOpen(false);
     navigate(`/signup`);
   };
+
+
+  useEffect(() => {
+    
+    fetch(`${import.meta.env.VITE_HOST}/api/finduser/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      credentials: 'include',
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if(!data.success){
+          toast.error("Something Went Wrong");
+          navigate("/");
+        }else{
+          console.log(data);
+          setName(data.user);
+        }
+        
+
+      });
+
+  }, []);
   
   return (
     <>
@@ -75,11 +100,11 @@ const SentMessage = () => {
               <i className="text-2xl text-pink-500 fa-solid fa-close"></i>
             </div>
             <h2 className="text-2xl font-bold mb-4 text-center">Want to try this? 😎</h2>
-            <p className="mb-4 text-center">Register and share the link with friends.</p>
+            <p className="mb-4 text-center">Login and share Your link with friends.</p>
             <div className="flex justify-center">
             <button
-              onClick={handleSent}
-              className="cursor-pointer bg-gradient-to-b from-pink-500 to-yellow-400 text-white px-4 py-2 rounded-md hover:from-red-600 hover:to-slate-600 transition"
+              onClick={handleTry}
+              className="cursor-pointer bg-gradient-to-b from-pink-500 to-cyan-400 text-white px-4 py-2 rounded-md hover:from-red-600 hover:to-slate-600 transition"
             >
               Try
             </button>
@@ -90,8 +115,8 @@ const SentMessage = () => {
       )}
       <div className="flex justify-center">
         <div className="bg-white w-[500px] h-[500px] flex flex-col rounded-lg mt-24 shadow-lg">
-          <div className="sticky top-0 bg-gradient-to-b from-pink-500 to-yellow-600 shadow-lg flex justify-center items-center h-[100px] rounded-t-lg z-10">
-            <h1 className="lg:text-3xl sm:text-xl text-white">Sent message to Name</h1>
+          <div className="sticky top-0 bg-gradient-to-b from-pink-500 to-red-600 shadow-lg flex justify-center items-center h-[100px] rounded-t-lg z-10">
+            <h1 className="lg:text-3xl text-center sm:text-xl text-white">Sent message to <br />@ <span className=' text-lg'>{name}</span></h1>
           </div>
 
           <textarea

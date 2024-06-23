@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { AuthContext } from "../../store/AuthContext";
 import html2canvas from 'html2canvas';
+import storyImage from '../../assets/images/storieimage.png'
 
 const Inbox = () => {
   const [viewMsg, setViewMsg] = useState(false);
@@ -67,7 +68,27 @@ const Inbox = () => {
       });
     });
   };
+
+  const shareTostorie = () => {
   
+    const item = new ClipboardItem({ "image/png": storyImage });
+    navigator.clipboard.write([item]).then(() => {
+
+      toast.success("Screenshot copied to clipboard");
+      if (navigator.share) {
+        navigator.share({
+          title: 'Shared Message',
+          text: 'Check out this message',
+          files: [new File([storyImage], 'screenshot.png', { type: 'image/png' })],
+        });
+      } else {
+        toast.error("Sharing is not supported in your browser");
+      }
+    }).catch(err => {
+      toast.error("Failed to copy screenshot to clipboard");
+    });
+
+  }
 
   useEffect(() => {
     if (!user) {
@@ -123,7 +144,17 @@ const Inbox = () => {
             </div>
           </div>
         </div>
+       
       </div>
+      <div className="flex justify-center">
+      <button
+              onClick={shareTostorie}
+              className="bg-red-600 transition  hover:bg-slate-500 text-white xs:text-[20px] text-[30px] py-2 px-4 rounded-full mt-4 text-center"
+            >
+              Share to your story
+            </button>
+      </div>
+      
       {viewMsg && (
   <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-90 z-50">
     <div className="bg-slate-600 p-3 rounded-lg w-[90%] max-w-[600px] overflow-y-auto max-h-[80vh] relative">
@@ -139,7 +170,7 @@ const Inbox = () => {
           </div>
       <div className=" flex flex-col rounded-md items-center justify-center bg-white max-w-[600px] p-4
       mb-5">
-      <p className="lg:text-lg text-md font-thin mb-4 text-center pb-5 break-words">
+      <p className="lg:text-lg text-md font-bold mb-4 text-center pb-5 break-words">
         {selectedMsg}
       </p>
       </div>

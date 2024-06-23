@@ -10,8 +10,8 @@ const register = async (req, res) => {
 
     if (!email || !password || !confirmPassword) {
       return res.status(400).json({ error: "All fields are required" });
-    } else if (!validator.isEmail(email)) {
-      return res.status(400).json({ error: "Invalid email" });
+    } else if (email.length > 30 ) {
+      return res.status(400).json({ error: "enter A shorter Username" });
     } else if (!password || !confirmPassword) {
       return res.status(400).json({ error: "Password required" });
     } else if (password !== confirmPassword) {
@@ -43,9 +43,7 @@ const login = async (req, res) => {
 
     if (!email || !password) {
       return res.status(400).json({ error: "All fields are required" });
-    } else if (!validator.isEmail(email)) {
-      return res.status(400).json({ error: "Invalid email" });
-    }
+    } 
 
     const user = await userModel.findOne({ email: email });
 
@@ -104,4 +102,19 @@ const sendMessage = async (req, res) => {
   }
 };
 
-module.exports = { register, login ,logout,sendMessage};
+const findUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const user = await userModel.findById(id);
+
+    if (!user) {
+      return res.status(404).json({success: false, error: "User not found" });
+    }
+    res.status(200).json({ success: true, user: user.email });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+module.exports = { register, login ,logout,sendMessage,findUser};
