@@ -1,4 +1,5 @@
 const userModel = require("../model/userModel");
+const messageModel = require("../model/messageModel");
 const validator = require("validator");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -82,4 +83,25 @@ const logout = (req, res) => {
   }).status(200).json({ success: true, message: "Logout successful" });
 };
 
-module.exports = { register, login ,logout};
+
+const sendMessage = async (req, res) => {
+
+  console.log(req.body);
+
+  try {
+    const { id } = req.params;
+    const { msg } = req.body;
+    console.log(msg);
+    const user = await userModel.findById(id);
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    user.message.push(msg);
+    await user.save();
+    res.status(200).json({ success: true, message: "Message sent successfully" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+module.exports = { register, login ,logout,sendMessage};
