@@ -20,7 +20,6 @@ const AuthProvider = ({ children }) => {
             "Access-Control-Allow-Origin": "*",
           },
           credentials: 'include',
-    
         })
     
     
