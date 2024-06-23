@@ -45,12 +45,12 @@ const Inbox = () => {
   };
 
   const handleShare = () => {
-    const modal = document.querySelector('.bg-white.p-6.rounded-lg');
+    const modal = document.querySelector('.share-msg');
     html2canvas(modal).then(canvas => {
       canvas.toBlob(blob => {
         const item = new ClipboardItem({ "image/png": blob });
         navigator.clipboard.write([item]).then(() => {
-          
+
           toast.success("Screenshot copied to clipboard");
           if (navigator.share) {
             navigator.share({
@@ -133,7 +133,7 @@ const Inbox = () => {
       >
         <i className="text-2xl text-pink-500 fa-solid fa-close"></i>
       </div>
-      <div className="flex flex-col rounded-md items-center justify-center bg-gray-300 max-w-[600px] p-4
+      <div className="share-msg flex flex-col rounded-md items-center justify-center bg-gray-300 max-w-[600px] p-4
       mb-5">
       <p className="lg:text-lg text-md font-thin mb-4 text-center pb-5 break-words">
         {selectedMsg}
