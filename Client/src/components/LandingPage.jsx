@@ -1,7 +1,8 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useLayoutEffect, useState } from 'react'
 import ConfettiExplosion from 'react-confetti-explosion';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../store/AuthContext';
+import NumberCounter from 'number-counter';
 
 const LandingPage = () => {
 
@@ -32,8 +33,10 @@ const LandingPage = () => {
       }).then((res) => res.json())
       .then((data) => {
         if (data) {
-          console.log(data);
+   
           setTotal(data.totalUsers)
+
+          
         }
       })
 
@@ -52,7 +55,7 @@ const LandingPage = () => {
       
     </div>
     <button
-      className='bg-white mt-8 text-black  py-2 px-24 rounded-full'>Total Users <span className='text-blue-500 text-xl'>{total} </span>  </button>
+      className='bg-white mt-8 text-black  py-2 px-24 rounded-full'>Total Users <span className='text-blue-500 text-xl'>{total > 0 ? ( <NumberCounter end={total} delay={1}/> ) : ""}</span>   </button>
     </div>
    
     </>
