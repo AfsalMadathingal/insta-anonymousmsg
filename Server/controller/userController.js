@@ -92,7 +92,7 @@ const login = async (req, res) => {
 
     const error = validateLogin(req.body)
 
-    console.log(req.body);
+
     if (error) {
       console.log(error);
       return res.status(400).json({ error: error[0] });
