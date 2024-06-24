@@ -20,7 +20,7 @@ const SentMessage = () => {
       return;
     } else {
       for (let i = 0; i < messageSplit.length; i++) {
-        if (messageSplit[i].length > 10) {
+        if (messageSplit[i].length > 30) {
           toast.error("Message is too long");
           return;
         }
