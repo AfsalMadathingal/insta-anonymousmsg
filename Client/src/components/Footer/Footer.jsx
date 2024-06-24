@@ -5,7 +5,7 @@ const Footer = () => {
   return (
     <footer className="fixed bottom-0 w-full bg-gray-800 text-white text-center py-2">
       <p className='text-sm '>
-        Made with <i className="fa fa-heart text-red-500"></i> by Afsal 
+        Made with <i className="fa fa-heart text-red-500"></i>
         <i
         onClick={() => window.open('https://afsalmadathingal.online')} 
         className='cursor-pointer fa fa-link text-white ml-2'></i>
