@@ -14,7 +14,10 @@ const SignUp = () => {
 
   const hadleSubmit = async (e) => {
     e.preventDefault();
-   
+    if(userName.includes(" ") || password.includes(" ") || confirmPassword.includes(" ")){
+      toast.error("Username or Password cannot contain spaces");
+      return
+    }
     const emailSpace = userName.replace(/\s/g, "");
     const host = import.meta.env.VITE_HOST;
     const result = await fetch(`${host}/api/register`, {
