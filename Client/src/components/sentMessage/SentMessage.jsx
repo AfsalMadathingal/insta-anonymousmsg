@@ -120,7 +120,7 @@ const SentMessage = () => {
       )}
       <div className="flex justify-center">
         <div className="bg-white w-[500px] h-[500px] flex flex-col rounded-lg mt-24 shadow-lg">
-          <div className="sticky top-0 bg-gradient-to-b from-pink-500 to-red-600 shadow-lg flex justify-center items-center h-[100px] rounded-t-lg z-10">
+          <div className=" top-0 bg-gradient-to-b from-pink-500 to-red-600 shadow-lg flex justify-center items-center h-[100px] rounded-t-lg z-10">
             <h1 className="lg:text-3xl text-center sm:text-xl text-white">Sent message to <br />@ <span className=' text-lg'>{name}</span></h1>
           </div>
 

@@ -10,9 +10,10 @@ const FlipCard = () => {
   const { user, setUser, loading , setLoading } = useContext(AuthContext);
 
   const hadleSubmit = async (e) => {
-
+    
     e.preventDefault();
     setLoading(true)
+    const emailSpace = email.replace(/\s/g, "");
     const host = import.meta.env.VITE_HOST;
     const result = await fetch(`${host}/api/login`, {
       method: "POST",
@@ -24,7 +25,7 @@ const FlipCard = () => {
       },
       credentials: 'include',
       body: JSON.stringify({
-        email,
+        email:emailSpace,
         password,
       }),
     });

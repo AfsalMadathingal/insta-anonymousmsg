@@ -33,7 +33,7 @@ function App() {
       {!loading && (
         <div
           style={{ backgroundImage: `url(${bg})`  }}
-          className="  h-screen w-screen p-2 bg-cover bg-center"
+          className="  h-full w-screen p-2 bg-cover"
         >
           <Routes>
           <Route path="/*" element={<LandingPage />} />

@@ -46,8 +46,6 @@ const Inbox = () => {
       canvas.toBlob(blob => {
         const item = new ClipboardItem({ "image/png": blob });
         navigator.clipboard.write([item]).then(() => {
-
-          toast.success("Screenshot copied to clipboard");
           if (navigator.share) {
             navigator.share({
               title: 'Shared Message',
@@ -55,10 +53,10 @@ const Inbox = () => {
               files: [new File([blob], 'screenshot.png', { type: 'image/png' })],
             });
           } else {
-            toast.error("Sharing is not supported in your browser");
+            toast.error("Copy Link and Share ");
           }
         }).catch(err => {
-          toast.error("Failed to copy screenshot to clipboard");
+          toast.error("Something went wrong");
         });
       });
     });
