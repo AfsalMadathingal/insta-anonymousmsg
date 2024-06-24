@@ -10,6 +10,7 @@ router.post('/logout',userController.logout)
 router.post('/sendMessage/:id',userController.sendMessage)
 router.get('/finduser/:id',userController.findUser)
 router.get('/count',userController.count)
+router.post('/delete-message',userController.removeMessage)
 
 
 module.exports = router

@@ -20,6 +20,35 @@ const count = async (req, res) => {
 }
 
 
+const removeMessage = async  (req, res) => {
+
+  try {
+   
+    console.log(req.body);
+    
+    const { id, message } = req.body; 
+
+    const result = await userModel.findOneAndUpdate(
+      { _id: id },
+      { $pull: { message: message } }
+    );
+
+    const user = await userModel.findById(id);
+
+    console.log(result);
+
+    if (!result) {
+      return res.status(404).json({ success: false, message: 'Some error occurred' });
+    }
+
+    res.status(200).json({ success: true, message: 'Message removed successfully' ,user:user});
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: 'Internal Server Error' });
+  } 
+}
+
+
 
 const register = async (req, res) => {
   try {
@@ -142,4 +171,4 @@ const findUser = async (req, res) => {
   }
 };
 
-module.exports = { register, login ,logout,sendMessage,findUser,count};
+module.exports = { register, login ,logout,sendMessage,findUser,count , removeMessage } ;

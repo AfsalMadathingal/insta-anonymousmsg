@@ -111,6 +111,33 @@ const Inbox = () => {
     }
   }, []);
 
+
+
+  const handleDelete = async (msg) => {
+
+
+    const res = await fetch(`${import.meta.env.VITE_HOST}/api/delete-message`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      credentials: 'include',
+      body: JSON.stringify({ id: user._id,message:msg }),
+    });
+
+    const data = await res.json();
+    if (!data.success) {
+      toast.error("Something went wrong");
+    } else {
+      setUser(data.user);
+      toast.success("Message Deleted");
+    }
+
+
+
+  };
+
   return (
     <>
       <div className="flex justify-center">
@@ -157,10 +184,17 @@ const Inbox = () => {
                   <div className="flex gap-2 justify-end pt-2">
                     <button
                       onClick={() => handleViewMessage(msg)}
-                      className="bg-gray-900 hover:bg-slate-500 text-white text-[12px] h-10 py-2 px-4 rounded-lg"
+                      className="bg-gray-900 hover:bg-slate-500 text-white text-[12px] h-10 py-2 px-4 rounded-full"
                     >
                       <i className="fa-solid fa-eye"></i> View
                     </button>
+                    <button
+                      onClick={() => handleDelete(msg)}
+                      className="bg-red-600 hover:bg-slate-500 text-white text-[12px] h-10 py-2 px-4 rounded-full"
+                    >
+                      <i className="fa-solid fa-trash"></i> Delete
+                    </button>
+
                   </div>
                 </div>
               ))}
