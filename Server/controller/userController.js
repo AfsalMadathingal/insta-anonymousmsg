@@ -4,6 +4,7 @@ const validator = require("validator");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const turl = require('turl');
+const { validateUser, validateLogin } = require("../utils/validation");
 
 
 
@@ -52,18 +53,16 @@ const removeMessage = async  (req, res) => {
 
 const register = async (req, res) => {
   try {
-    const { email, password, confirmPassword } = req.body;
+    const { username, password } = req.body;
 
-    if (!email || !password || !confirmPassword) {
-      return res.status(400).json({ error: "All fields are required" });
-    } else if (email.length > 30 ) {
-      return res.status(400).json({ error: "enter A shorter Username" });
-    } else if (!password || !confirmPassword) {
-      return res.status(400).json({ error: "Password required" });
-    } else if (password !== confirmPassword) {
-      return res.status(400).json({ error: "Passwords do not match" });
+    const error = validateUser(req.body)
+
+    if (error) {
+      console.log(error);
+      return res.status(400).json({ error: error[0] });
     }
-    const exists = await userModel.findOne({ email: email });
+
+    const exists = await userModel.findOne({ email: username });
     if (exists) {
       return res.status(400).json({ error: "User already exists" });
     }
@@ -71,9 +70,9 @@ const register = async (req, res) => {
     const encryptedPassword = await bcrypt.hash(password, 10);
 
    
-    const link = await turl.shorten( `${process.env.HOST_LINK}/sent/${email}`)
+    const link = await turl.shorten( `${process.env.HOST_LINK}/sent/${username}`)
 
-    const user = await userModel.create({ email:email.trim(), password: encryptedPassword ,link });
+    const user = await userModel.create({ email:username.trim(), password: encryptedPassword ,link });
 
     const token = jwt.sign({ id: user._id, role: "user" }, process.env.JWT_SECRET_KEY);
 
@@ -89,13 +88,17 @@ const register = async (req, res) => {
 
 const login = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { username, password } = req.body;
 
-    if (!email || !password) {
-      return res.status(400).json({ error: "All fields are required" });
-    } 
+    const error = validateLogin(req.body)
 
-    const user = await userModel.findOne({ email: email });
+    console.log(req.body);
+    if (error) {
+      console.log(error);
+      return res.status(400).json({ error: error[0] });
+    }
+
+    const user = await userModel.findOne({ email: username });
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });
