@@ -5,6 +5,22 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const turl = require('turl');
 
+
+
+const count = async (req, res) => {
+  try {
+    
+    const totalUsers = await userModel.countDocuments();
+    res.status(200).json({ totalUsers });
+
+
+  } catch (error) {
+    
+  }
+}
+
+
+
 const register = async (req, res) => {
   try {
     const { email, password, confirmPassword } = req.body;
@@ -126,4 +142,4 @@ const findUser = async (req, res) => {
   }
 };
 
-module.exports = { register, login ,logout,sendMessage,findUser};
+module.exports = { register, login ,logout,sendMessage,findUser,count};
