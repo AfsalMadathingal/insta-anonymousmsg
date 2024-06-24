@@ -5,10 +5,10 @@ import { Outlet ,Navigate} from 'react-router-dom'
 
 const PublicRoute = () => {
 
-    const { user, loading } = useContext(AuthContext);
+    const { user, loading ,setLoading } = useContext(AuthContext);
 
 
-    console.log("from public",user);
+  console.log("from public",user);
 
   return ( user ? <Navigate to="/inbox"/> : <Outlet/> )
   

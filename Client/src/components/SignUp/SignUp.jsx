@@ -47,12 +47,19 @@ const SignUp = () => {
     }
   };
 
+  const handleClick = () => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  }
+
 
   
   return (
     <div className="flex item-center justify-center mt-14">
    <div className="relative flex w-96 flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md">
-      <div className="relative mx-4 -mt-6 mb-4 grid h-28 place-items-center overflow-hidden rounded-xl bg-gradient-to-tr from-blue-600 to-blue-400 bg-clip-border text-white shadow-lg shadow-blue-500/40">
+      <div className="relative mx-4 -mt-6 mb-4 grid h-28 place-items-center overflow-hidden rounded-xl bg-gradient-to-tr from-cyan-600 to-pink-400 bg-clip-border text-white shadow-lg shadow-blue-500/40">
         <h3 className="block font-sans text-3xl font-semibold leading-snug tracking-normal text-white antialiased">
           Sign Up
         </h3>
@@ -133,14 +140,15 @@ const SignUp = () => {
           data-ripple-light="true"
           type="button"
           onClick={hadleSubmit}
-          className="block w-full select-none rounded-lg bg-gradient-to-tr from-blue-600 to-blue-400 py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-blue-500/20 transition-all hover:shadow-lg hover:shadow-blue-500/40 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+          className="block w-full select-none rounded-lg bg-gradient-to-tr from-cyan-600 to-pink-400 py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-blue-500/20 transition-all hover:shadow-lg hover:shadow-blue-500/40 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
         >
           Sign up
         </button>
         <p className="mt-6 flex justify-center font-sans text-sm font-light leading-normal text-inherit antialiased">
           Already have an account?
           <Link
-            className="ml-1 block font-sans text-sm font-bold leading-normal text-blue-500 antialiased"
+            className="ml-1 block font-sans text-sm font-bold leading-normal text-pink-500 antialiased"
+            onClick={handleClick}
             to="/signin"
           >
             Sign in
