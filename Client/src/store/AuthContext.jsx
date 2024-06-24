@@ -27,12 +27,13 @@ const AuthProvider = ({ children }) => {
     
           .then((res) => res.json())
           .then((data) => {
-            console.log(data);
+            console.log("data",data);
             if (!data.success) {
               setLoading(false);
               
             }else{
               setLoading(false);
+              console.log(data.user);
               setUser(data.user)
               toast.success("Welcome Back")
             }

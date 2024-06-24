@@ -16,7 +16,7 @@ const userModal = require("../model/userModel");
       }
       const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
       const user = await userModal.findById(decoded.id);
-      if(!user) return res.status(401).json({ success: false, message: "Unauthorized" });
+      if(!user) return res.status(401).json({ success: false, message: "Unauthorized user" });
       
       res.status(200).json({ success: true, user });  
   

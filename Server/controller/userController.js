@@ -35,7 +35,7 @@ const register = async (req, res) => {
     res.cookie("token", token, {
       httpOnly: true,
       domain:process.env.HOST_LINK,
-    }).status(200).json({ success: true, message: "User created successfully", user: user });
+    }).status(200).json({ success: true, message: "User created successfully", user: user ,token:token});
 
   } catch (error) {
     res.status(500).json({ error: error.message });

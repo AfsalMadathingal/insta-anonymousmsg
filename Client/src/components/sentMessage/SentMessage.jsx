@@ -4,7 +4,7 @@ import { AuthContext } from '../../store/AuthContext'
 import { toast } from 'react-toastify';
 
 const SentMessage = () => {
-  const { setExplosion } = useContext(AuthContext);
+  const { setExplosion ,setLoading } = useContext(AuthContext);
   const [modalOpen, setModalOpen] = useState(false);
   const [name, setName] = useState("");
   const navigate = useNavigate();
@@ -59,7 +59,12 @@ const SentMessage = () => {
 
   const handleTry = () => {
     setModalOpen(false);
+    setLoading(true)
+    setTimeout(() => {
+      setLoading(false)
+    }, 1000);
     navigate(`/signup`);
+    
   };
 
 

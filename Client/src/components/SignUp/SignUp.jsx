@@ -36,8 +36,10 @@ const SignUp = () => {
     const data = await result.json();
     if (data.success) {
         setLoading(false);
+        setUser(data.user);
+        localStorage.setItem("token", data.token);
         toast.success("Registered Successfully");
-        navigate('/signin')
+        navigate('/inbox')
     }else{
       setLoading(false);
       console.log(data);

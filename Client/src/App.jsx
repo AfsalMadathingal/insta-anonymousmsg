@@ -23,11 +23,11 @@ function App() {
   const { user, loading, explosion } = useContext(AuthContext);
 
   return (
-    <div className="flex items-center justify-center h-screen">
+    <div className="flex items-center justify-center h-screen bg-black">
       {explosion ? <ConfettiExplosion /> : null}
       {loading && (
         <>
-          <ReactLoading type="bars" color="black" />
+          <ReactLoading type="bars" color="white" />
         </>
       )}
       {!loading && (
