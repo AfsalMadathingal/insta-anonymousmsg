@@ -14,6 +14,7 @@ const Inbox = () => {
 
   const messages = user.message;
   const count = messages.length;
+  
   const handleViewMessage = (msg) => {
     setSelectedMsg(msg);
     setViewMsg(true);
@@ -61,92 +62,92 @@ const Inbox = () => {
     });
   };
 
-  // const shareToStory = async () => {
-  //   try {
-  //     if (!navigator.clipboard || !window.ClipboardItem) {
-  //       toast.error("Please Copy the link and Share");
-  //       return;
-  //     }
-  
-
-  //     const response = await fetch(storyImage);
-  //     if (!response.ok) {
-  //       throw new Error('Network response was not ok');
-  //     }
-  //     const blob = await response.blob();
-  
-
-    
-  
-  //     const item = new ClipboardItem({ "image/png": blob });
-  
-
-  //     await navigator.clipboard.write([item]);
-  //     toast.success("Select App to share ");
-  
-   
-  //     if (navigator.share) {
-
-  //       const file = new File([blob], 'screenshot.png', { type: 'image/png' });
-  
-  //       await navigator.share({
-  //         title: 'Shared Message',
-  //         text: 'Check out this message',
-  //         files: [file],
-  //       });
-  //     } else {
-  //       toast.error("Please Copy the link and Share");
-  //     }
-  //   } catch (err) {
-      
-  //     toast.error("Please Copy the link and Share");
-  //   }
-  // };
-  
-
   const shareToStory = async () => {
     try {
-      // 1. Download the image
+      if (!navigator.clipboard || !window.ClipboardItem) {
+        toast.error("Please Copy the link and Share");
+        return;
+      }
+  
+
       const response = await fetch(storyImage);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
       const blob = await response.blob();
-      
-      // Create a temporary URL for the blob
-      const url = window.URL.createObjectURL(blob);
-      
-      // Create a temporary anchor element to trigger the download
-      const a = document.createElement('a');
-      a.style.display = 'none';
-      a.href = url;
-      a.download = 'story_image.png';
-      document.body.appendChild(a);
-      a.click();
-      window.URL.revokeObjectURL(url);
-      document.body.removeChild(a);
   
-      // 2. Copy link to clipboard
-      if (navigator.clipboard && window.ClipboardItem) {
-        await navigator.clipboard.writeText(user.link);
-        toast.success("Link copied to clipboard");
+
+    
+  
+      const item = new ClipboardItem({ "image/png": blob });
+  
+
+      await navigator.clipboard.write([item]);
+      toast.success("Select App to share ");
+  
+   
+      if (navigator.share) {
+
+        const file = new File([blob], 'screenshot.png', { type: 'image/png' });
+  
+        await navigator.share({
+          title: 'Shared Message',
+          text: 'Check out this message',
+          files: [file],
+        });
       } else {
-        toast.error("Unable to copy link automatically");
+        toast.error("Please Copy the link and Share");
       }
-  
-      // 3. Open Instagram story camera
-      window.location.href = 'instagram://story-camera';
-  
-      // If Instagram app doesn't open, provide a fallback
-      setTimeout(() => {
-        toast.info("If Instagram didn't open, please open it manually and use the downloaded image");
-      }, 2000);
-  
     } catch (err) {
-      console.error(err);
-      toast.error("An error occurred. Please try again.");
+      
+      toast.error("Please Copy the link and Share");
     }
   };
+  
+
+  // const shareToStory = async () => {
+  //   try {
+  //     // 1. Download the image
+  //     const response = await fetch(storyImage);
+  //     if (!response.ok) {
+  //       throw new Error('Network response was not ok');
+  //     }
+  //     const blob = await response.blob();
+      
+  //     // Create a temporary URL for the blob
+  //     const url = window.URL.createObjectURL(blob);
+      
+  //     // Create a temporary anchor element to trigger the download
+  //     const a = document.createElement('a');
+  //     a.style.display = 'none';
+  //     a.href = url;
+  //     a.download = 'story_image.png';
+  //     document.body.appendChild(a);
+  //     a.click();
+  //     window.URL.revokeObjectURL(url);
+  //     document.body.removeChild(a);
+  
+  //     // 2. Copy link to clipboard
+  //     if (navigator.clipboard && window.ClipboardItem) {
+  //       await navigator.clipboard.writeText(user.link);
+  //       toast.success("Link copied to clipboard");
+  //     } else {
+  //       toast.error("Unable to copy link automatically");
+  //     }
+  
+  //     // 3. Open Instagram story camera
+  //     window.location.href = 'instagram://story-camera';
+  
+  //     // If Instagram app doesn't open, provide a fallback
+  //     setTimeout(() => {
+  //       toast.info("If Instagram didn't open, please open it manually and use the downloaded image");
+  //     }, 2000);
+  
+  //   } catch (err) {
+  //     console.error(err);
+  //     toast.error("An error occurred. Please try again.");
+  //   }
+  // };
 
   useEffect(() => {
     if (!user) {
