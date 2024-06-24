@@ -5,11 +5,10 @@ import { AuthContext } from "../../store/AuthContext";
 import html2canvas from 'html2canvas';
 import storyImage from '../../assets/images/storieimage.png'
 
+
 const Inbox = () => {
   const [viewMsg, setViewMsg] = useState(false);
   const [selectedMsg, setSelectedMsg] = useState(null);
-  const [replyModalOpen, setReplyModalOpen] = useState(false);
-  const [replyMessage, setReplyMessage] = useState("");
   const navigate = useNavigate();
   const { user, setUser,setLoading, loading, setExplosion } = useContext(AuthContext);
 
@@ -62,48 +61,92 @@ const Inbox = () => {
     });
   };
 
-  const shareToStory = async () => {
-    try {
-      if (!navigator.clipboard || !window.ClipboardItem) {
-        toast.error("Clipboard API not supported in your browser");
-        return;
-      }
+  // const shareToStory = async () => {
+  //   try {
+  //     if (!navigator.clipboard || !window.ClipboardItem) {
+  //       toast.error("Please Copy the link and Share");
+  //       return;
+  //     }
   
 
+  //     const response = await fetch(storyImage);
+  //     if (!response.ok) {
+  //       throw new Error('Network response was not ok');
+  //     }
+  //     const blob = await response.blob();
+  
+
+    
+  
+  //     const item = new ClipboardItem({ "image/png": blob });
+  
+
+  //     await navigator.clipboard.write([item]);
+  //     toast.success("Select App to share ");
+  
+   
+  //     if (navigator.share) {
+
+  //       const file = new File([blob], 'screenshot.png', { type: 'image/png' });
+  
+  //       await navigator.share({
+  //         title: 'Shared Message',
+  //         text: 'Check out this message',
+  //         files: [file],
+  //       });
+  //     } else {
+  //       toast.error("Please Copy the link and Share");
+  //     }
+  //   } catch (err) {
+      
+  //     toast.error("Please Copy the link and Share");
+  //   }
+  // };
+  
+
+  const shareToStory = async () => {
+    try {
+      // 1. Download the image
       const response = await fetch(storyImage);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
       const blob = await response.blob();
+      
+      // Create a temporary URL for the blob
+      const url = window.URL.createObjectURL(blob);
+      
+      // Create a temporary anchor element to trigger the download
+      const a = document.createElement('a');
+      a.style.display = 'none';
+      a.href = url;
+      a.download = 'story_image.png';
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
   
-
-      console.log('Blob:', blob);
-  
-      const item = new ClipboardItem({ "image/png": blob });
-  
-
-      await navigator.clipboard.write([item]);
-      toast.success("Screenshot copied to clipboard");
-  
-   
-      if (navigator.share) {
-
-        const file = new File([blob], 'screenshot.png', { type: 'image/png' });
-  
-        await navigator.share({
-          title: 'Shared Message',
-          text: 'Check out this message',
-          files: [file],
-        });
+      // 2. Copy link to clipboard
+      if (navigator.clipboard && window.ClipboardItem) {
+        await navigator.clipboard.writeText(user.link);
+        toast.success("Link copied to clipboard");
       } else {
-        toast.error("Sharing is not supported in your browser");
+        toast.error("Unable to copy link automatically");
       }
+  
+      // 3. Open Instagram story camera
+      window.location.href = 'instagram://story-camera';
+  
+      // If Instagram app doesn't open, provide a fallback
+      setTimeout(() => {
+        toast.info("If Instagram didn't open, please open it manually and use the downloaded image");
+      }, 2000);
+  
     } catch (err) {
-      console.error('Error copying to clipboard:', err);
-      toast.error("Failed to copy screenshot to clipboard");
+      console.error(err);
+      toast.error("An error occurred. Please try again.");
     }
   };
-  
 
   useEffect(() => {
     if (!user) {

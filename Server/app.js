@@ -14,7 +14,7 @@ app.use(cookieParser());
 
 
 app.use(cors({
-    origin: ['http://localhost:5173',"https://insta-anonymousmsg-1.onrender.com",'https://urchin-app-5u7kr.ondigitalocean.app',"https://anonymousmsg.netlify.app","https://getreels.cloud"], 
+    origin: ['http://localhost:5173',"https://insta-anonymousmsg-1.onrender.com",'https://urchin-app-5u7kr.ondigitalocean.app',"https://anonymousmsg.netlify.app","https://getreels.cloud","https://9clmkz9s-5173.inc1.devtunnels.ms"], 
     credentials: true, 
 }));
 
